@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Eventus Hub — protótipo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500;1,9..144,600&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<svg class="visually-hidden" aria-hidden="true">
+<defs>
+  <symbol id="ic-dj" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 13a8 8 0 0 1 16 0"/><rect x="3" y="13" width="4" height="6" rx="1.4"/><rect x="17" y="13" width="4" height="6" rx="1.4"/>
+  </symbol>
+  <symbol id="ic-buffet" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 3v7a2 2 0 0 1-2 2v0a2 2 0 0 1-2-2V3M5 12v9M7 3v4M5 3v4M9 3c1.8 0 3 1.6 3 4s-1.2 4-3 4M9 3v18"/><path d="M17 3c-1.6 1-2.5 2.7-2.5 5s.9 4 2.5 5v8"/>
+  </symbol>
+  <symbol id="ic-decor" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="2.1"/><path d="M12 3.5c1.4 0 2.4 1.3 2 2.7-1 .5-2 1.3-2 2.3m0 7c0 1 1 1.8 2 2.3.4 1.4-.6 2.7-2 2.7m0-15c-1.4 0-2.4 1.3-2 2.7 1 .5 2 1.3 2 2.3m0 7c0 1-1 1.8-2 2.3-.4 1.4.6 2.7 2 2.7M20.5 12c0 1.4-1.3 2.4-2.7 2-.5-1-1.3-2-2.3-2m-7 0c-1 0-1.8 1-2.3 2-1.4.4-2.7-.6-2.7-2m14 0c0-1.4-1.3-2.4-2.7-2-.5 1-1.3 2-2.3 2m-7 0c-1 0-1.8-1-2.3-2-1.4-.4-2.7.6-2.7 2"/>
+  </symbol>
+  <symbol id="ic-banda" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M14 4l6 6"/><rect x="3" y="13" width="9" height="7" rx="4"/><circle cx="7.5" cy="16.5" r="1"/><path d="M12 13l6-6"/>
+  </symbol>
+  <symbol id="ic-foto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="3" y="7" width="18" height="13" rx="2.2"/><path d="M8 7l1.4-2.5h5.2L16 7"/><circle cx="12" cy="13.5" r="3.4"/>
+  </symbol>
+  <symbol id="ic-cerim" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="5" y="4.5" width="14" height="17" rx="2"/><path d="M9 3.5h6v2.2H9z"/><path d="M8.3 11h7.4M8.3 14.3h7.4M8.3 17.6h4.5"/>
+  </symbol>
+  <symbol id="ic-flor" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 21v-8"/><ellipse cx="12" cy="7.2" rx="2.6" ry="3.6"/><ellipse cx="12" cy="7.2" rx="2.6" ry="3.6" transform="rotate(60 12 7.2)"/><ellipse cx="12" cy="7.2" rx="2.6" ry="3.6" transform="rotate(120 12 7.2)"/><circle cx="12" cy="7.2" r="1.3" fill="currentColor" stroke="none"/>
+  </symbol>
+  <symbol id="ic-maq" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 18l9.5-9.5a2 2 0 0 1 2.8 0v0a2 2 0 0 1 0 2.8L8.8 20.8 5 22z"/><path d="M13 8.5l2.5 2.5"/>
+  </symbol>
+  <symbol id="ic-anim" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="9"/><path d="M8.3 10.2h.1M15.6 10.2h.1"/><path d="M8 15c1.1 1.2 2.5 1.8 4 1.8s2.9-.6 4-1.8"/>
+  </symbol>
+  <symbol id="ic-salao" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 10.5L12 4l9 6.5"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/>
+  </symbol>
+  <symbol id="ic-estrutura" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="7" y="3" width="6" height="18" rx="2"/><circle cx="10" cy="7" r="1" fill="currentColor" stroke="none"/><circle cx="10" cy="11" r="1" fill="currentColor" stroke="none"/><path d="M15 8c2.5 1 4 4 4 8"/><path d="M15 5c3.8 1.2 6 5.5 6 11"/>
+  </symbol>
+  <symbol id="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L19 7"/></symbol>
+  <symbol id="ic-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="ic-bag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8h12l-1 12H7z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></symbol>
+  <symbol id="ic-star" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 3l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L12 17l-5.6 3.1 1.4-6.3-4.8-4.3 6.4-.6z"/></symbol>
+  <symbol id="ic-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.6 7-11.5A7 7 0 0 0 5 9.5C5 14.4 12 21 12 21z"/><circle cx="12" cy="9.4" r="2.3"/></symbol>
+</defs>
+</svg>
+
+<header class="topbar">
+  <div class="logo"><span class="mark"><b>Eventus</b> Hub</span><span class="tag">protótipo · dados fictícios</span></div>
+  <div class="searchpill" id="searchpill">
+    <button class="seg" id="seg-city" type="button">
+      <span class="k">Região</span>
+      <span class="v placeholder" id="seg-city-v">Selecionar cidade</span>
+    </button>
+    <button class="seg" id="seg-date" type="button">
+      <span class="k">Data</span>
+      <span class="v placeholder" id="seg-date-v">Quando é o evento?</span>
+    </button>
+    <button class="seg" id="seg-type" type="button">
+      <span class="k">Evento</span>
+      <span class="v placeholder" id="seg-type-v">Tipo de evento</span>
+    </button>
+    <button class="go" id="go-btn" type="button" aria-label="Buscar"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></button>
+  </div>
+  <button class="themebtn" id="theme-toggle" type="button" aria-label="Alternar tema claro/escuro" title="Alternar tema claro/escuro">
+    <svg id="theme-icon-sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.4M12 19.1v2.4M4.2 4.2l1.7 1.7M18.1 18.1l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.2 19.8l1.7-1.7M18.1 5.9l1.7-1.7"/></svg>
+    <svg id="theme-icon-moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a6.8 6.8 0 0 0 10.5 10.5z"/></svg>
+  </button>
+  <button class="cartbtn" id="cart-open"><svg width="16" height="16"><use href="#ic-bag"/></svg> Orçamento <span class="count" id="cart-count">0</span></button>
+</header>
+
+<div class="app" id="app" data-stage="gate">
+
+  <div class="col-left">
+
+    <!-- ===================== GATE ===================== -->
+    <section id="gate">
+      <div class="gate-head">
+        <h1>Monte o seu evento no Paraná</h1>
+        <p>Escolha a região, a data e o tipo de evento — o Eventus Hub filtra, na hora, só quem realmente atende esse lugar, essa data e esse estilo. Tudo abaixo é fictício, para testarmos a lógica do fluxo.</p>
+      </div>
+
+      <div class="gate-block">
+        <div class="label"><span class="n">1</span>Cidade no Paraná</div>
+        <div class="chiprow" id="gate-cities"></div>
+      </div>
+
+      <div class="gate-block">
+        <div class="label"><span class="n">2</span>Data do evento</div>
+        <div class="chiprow" id="gate-dates"></div>
+      </div>
+
+      <div class="gate-block">
+        <div class="label"><span class="n">3</span>Tipo de evento</div>
+        <div class="chiprow" id="gate-types"></div>
+      </div>
+
+      <div class="gate-block">
+        <div class="label"><span class="n">4</span>Número de convidados <span style="text-transform:none;font-weight:500;letter-spacing:0;color:var(--ink-faint)">(usado para estimar o buffet)</span></div>
+        <div class="guestbox">
+          <div class="stepper">
+            <button type="button" id="guest-minus" aria-label="Diminuir">–</button>
+            <span class="val tabular" id="guest-val">100</span>
+            <button type="button" id="guest-plus" aria-label="Aumentar">+</button>
+          </div>
+          <span style="font-size:12.5px;color:var(--ink-faint)">convidados</span>
+        </div>
+      </div>
+
+      <button class="gate-cta" id="gate-cta" disabled>Ver prestadores disponíveis</button>
+    </section>
+
+    <!-- ===================== RESULTS ===================== -->
+    <section id="results" style="display:none;">
+      <div class="results-summary">
+        <div>
+          <h2 id="res-title">Prestadores disponíveis</h2>
+          <div style="font-size:12.5px;color:var(--ink-soft);margin-top:2px;" id="res-sub"></div>
+        </div>
+        <button class="editlink" id="edit-search">Editar busca</button>
+      </div>
+
+      <div class="catrail" id="catrail"></div>
+      <div class="subfilters" id="subfilters"></div>
+      <div class="cards" id="cards"></div>
+    </section>
+
+    <div class="footnote">Eventus Hub — protótipo de layout com prestadores, preços, disponibilidade e mapa 100% fictícios, criado para discutir e ajustar o fluxo de contratação por região → data → curadoria de serviços antes de qualquer desenvolvimento real. As imagens nos cards são prévias ilustrativas geradas para este protótipo — na versão real, cada prestador subiria fotos do próprio trabalho.</div>
+  </div>
+
+  <div class="col-right">
+    <div class="mapwrap" id="mapwrap">
+      <div class="map-toolbar">
+        <button class="map-legend-toggle" id="legend-toggle" type="button" aria-expanded="false" aria-label="Legenda do mapa" title="Legenda do mapa">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9.5"/><path d="M12 11v6"/><circle cx="12" cy="7.5" r="0.6" fill="currentColor" stroke="none"/></svg>
+        </button>
+        <div class="map-legend" id="map-legend" hidden>
+          <button class="map-legend-close" id="legend-close" aria-label="Fechar legenda">✕</button>
+          <b>Mapa do Paraná</b> · OpenStreetMap<br>
+          <span style="display:inline-flex;align-items:center;gap:5px;margin-top:5px;"><svg width="9" height="9" viewBox="0 0 9 9"><circle cx="4.5" cy="4.5" r="4" fill="var(--forest)"/></svg> cidade com orçamento médio</span><br>
+          <span style="display:inline-flex;align-items:center;gap:5px;margin-top:3px;"><svg width="9" height="9" viewBox="0 0 9 9"><circle cx="4.5" cy="4.5" r="4" fill="var(--accent)"/></svg> salão parceiro (clique p/ ver a média)</span>
+        </div>
+      </div>
+      <div id="map-leaflet"></div>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="overlay"></div>
+<aside class="drawer" id="drawer" aria-label="Seu orçamento">
+  <div class="drawer-head">
+    <h3>Seu orçamento</h3>
+    <button id="drawer-close" aria-label="Fechar">✕</button>
+  </div>
+  <div class="drawer-body" id="drawer-body"></div>
+  <div class="drawer-foot" id="drawer-foot"></div>
+</aside>
+
+<div class="pdmodal" id="pdmodal" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Detalhes do prestador">
+  <div class="pdmodal-card">
+    <button class="pdmodal-close" id="pdmodal-close" type="button" aria-label="Fechar">✕</button>
+    <div class="pdmodal-media" id="pdmodal-media"></div>
+    <div class="pdmodal-body" id="pdmodal-body"></div>
+  </div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
